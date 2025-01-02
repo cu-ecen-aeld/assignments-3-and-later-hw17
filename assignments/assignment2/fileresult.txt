@@ -1,0 +1,1 @@
+writer: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=b76cc327e4e6af73a8cce8b2285b3001b3e7b76d, for GNU/Linux 3.2.0, with debug_info, not stripped
