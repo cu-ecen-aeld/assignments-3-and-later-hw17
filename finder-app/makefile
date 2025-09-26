@@ -8,6 +8,7 @@ override CROSS_COMPILE=
 endif
 CFLAGS = -g -Wall
 
+all: clean writer
 writer:
 	$(CROSS_COMPILE)gcc $(CFLAGS) -o writer writer.c
 
