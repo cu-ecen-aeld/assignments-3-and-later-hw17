@@ -33,25 +33,23 @@ void signal_handler(int sig) {
         closelog();
         exit(0);
     }
- }
- 
-// Verify if program should be in daemon mode
-int is_daemon_mode(int argc, char *argv[]){
-    if (argc > 1 && strcmp(argv[1], "-d") == 0)
-        return 1;
-    else
-        return 0;
 }
 
 void set_signal_handling(){
     struct sigaction sig_action = {0};
+    memset(&sig_action, 0, sizeof(sig_action));
     sig_action.sa_handler = signal_handler;
     sigaction(SIGINT, &sig_action, NULL);
     sigaction(SIGTERM, &sig_action, NULL);
 }
  
 int main(int argc, char *argv[]) {
-    int daemon_mode = is_daemon_mode(argc, argv);
+    int daemon_mode = 0;
+    // Verify if program should be in daemon mode
+    if (argc > 1 && strcmp(argv[1], "-d") == 0) {
+        daemon_mode = 1;
+    }
+
     int r;  // status
     int opt = 1; //for enable address reuse on setsockopt
 
@@ -84,7 +82,7 @@ int main(int argc, char *argv[]) {
     
     // bind the server to a socket
     r = bind(server_fd, (struct sockaddr *)&addr, sizeof(addr));
-    if (r == -1) {
+    if (r < 0) {
         syslog(LOG_ERR, "Bind: failed");
         close(server_fd);
         return -1;
